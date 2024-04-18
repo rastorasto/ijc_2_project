@@ -6,22 +6,79 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
-// cbuf_create(int n){
+#define BUFFER_SIZE 2047 * sizeof(char)
 
-// }
+typedef struct {
+    int size;
+    int possition;
+    int used;
+    char **buffer;
+} cbuf_t;
 
-// cbuf_put(cb, line){
+cbuf_t *cbuf_create(int n){
+    if(n < 0){
+        return NULL;
+    }
+    cbuf_t *cb = malloc(sizeof(cbuf_t));
+    if(cb == NULL){
+        return NULL;
+    }
+    cb->size = n;
+    cb->possition = 0;
+    cb->used = 0;
 
-// }
+    cb->buffer = malloc(n * sizeof(char *));
 
-// cbuf_get(cb){
+    if(cb->buffer == NULL){
+        free(cb);
+        return NULL;
+    }
 
-// } 
+    for(int i = 0; i < n; i++){
+        cb->buffer[i] = malloc(BUFFER_SIZE * sizeof(char));
+        if(cb->buffer[i] == NULL){
+            for(int j = 0; j < i; j++){
+                free(cb->buffer[j]);
+            }
+            free(cb->buffer);
+            free(cb);
+            return NULL;
+        }
+    }
+    return cb;
+}
 
-// cbuf_free(cb){
+bool cbuf_put(cbuf_t *cb, char *line){
+    if(cb == NULL || line == NULL){
+        return false;
+    }
+    strncpy(cb->buffer[cb->possition], line, BUFFER_SIZE);
 
-// }
+    cb->possition = (cb->possition + 1) % cb->size;
+    if(cb->used < cb->size){
+        cb->used++;
+    }
+    return true;
+}
+
+char *cbuf_get(cbuf_t *cb){
+    if(cb == NULL){
+        return NULL;
+    }
+    return cb->buffer[cb->possition];
+
+} 
+
+void cbuf_free(cbuf_t *cb){
+    for(int i = 0; i < cb->size; i++){
+        free(cb->buffer[i]);
+    }
+    free(cb->buffer);
+    free(cb);
+
+}
 
 int main(int argc, char *argv[]){
     int number_of_lines = 10;
@@ -45,7 +102,11 @@ int main(int argc, char *argv[]){
             fprintf(stderr, "Subor sa nepodarilo otvorit\n");
             return 1;
         }
+    } else {
+        fprintf(stderr, "Neplatne argumenty\n");
+        return 1;
     }
+
     fprintf(stdout, "\nNumber of lines: %d\n", number_of_lines);
     char line[100];
     while (fgets(line, sizeof(line), file) != NULL) {
