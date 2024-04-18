@@ -7,6 +7,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #define BUFFER_SIZE 2047 * sizeof(char)
 
@@ -18,7 +19,7 @@ typedef struct {
 } cbuf_t;
 
 cbuf_t *cbuf_create(int n){
-    if(n < 0){
+    if(n <= 0){
         return NULL;
     }
     cbuf_t *cb = malloc(sizeof(cbuf_t));
@@ -80,10 +81,50 @@ void cbuf_free(cbuf_t *cb){
 
 }
 
+int save_to_cbuf(FILE* file, int number_of_lines){
+    cbuf_t *cb = cbuf_create(number_of_lines);
+    if(cb == NULL){
+        return 1;
+    }
+    char *line = malloc(BUFFER_SIZE);
+    if(line == NULL){
+        cbuf_free(cb);
+        return 1;
+    }
+    while(fgets(line, BUFFER_SIZE, file) != NULL){
+        if(strlen(line) == BUFFER_SIZE - 1 && line[BUFFER_SIZE - 2] != '\n'){
+            for(;fgetc(file) != '\n';);
+        }
+        cbuf_put(cb, line);
+    }
+    free(line);
+    
+    char *line_to_print;
+    for(int i = 0; i < cb->used; i++){
+        line_to_print = cbuf_get(cb);
+        cb->possition = (cb->possition + 1) % cb->size;
+        printf("%s", line_to_print);
+        if(line_to_print[strlen(line_to_print) - 1] != '\n'){
+            printf("\n");
+        }
+    }
+    cbuf_free(cb);
+    return 0;
+}
+
 int main(int argc, char *argv[]){
     int number_of_lines = 10;
     FILE *file = stdin;
+    for(int i = 0; i < argc; i++){
+        printf("%s\n", argv[i]);
+    }
     if(strcmp(argv[1], "-n") == 0 && argc > 2){
+        for(unsigned int i = 0; i < strlen(argv[2]); i++){
+            if(!isdigit(argv[2][i])){
+                fprintf(stderr, "Invalid number of lines\n");
+                return 1;
+            }
+        }
         number_of_lines = atoi(argv[2]);
         if(number_of_lines < 0){
             fprintf(stderr, "Neplatny pocet riadkov\n");
@@ -102,15 +143,10 @@ int main(int argc, char *argv[]){
             fprintf(stderr, "Subor sa nepodarilo otvorit\n");
             return 1;
         }
-    } else {
-        fprintf(stderr, "Neplatne argumenty\n");
-        return 1;
     }
-
+    
     fprintf(stdout, "\nNumber of lines: %d\n", number_of_lines);
-    char line[100];
-    while (fgets(line, sizeof(line), file) != NULL) {
-        printf("%s", line);
-    }
+    save_to_cbuf(file, number_of_lines);
+    fclose(file);
     return 0; 
 }
