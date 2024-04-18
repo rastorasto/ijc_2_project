@@ -16,9 +16,10 @@ tail: tail.o
 
 run : tail
 	./tail lines.txt
-	./tail  -n 5 lines.txt
-	./tail  -n 8 <lines.txt
-	./tail  -n 0 lines.txt
+	./tail -n 5 lines.txt
+	./tail -n 8 <lines.txt
+	./tail -n 19 <lines.txt 
+	./tail -n 0 lines.txt
 
 clean:
 	rm -f *.o $(TARGETS)
