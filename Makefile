@@ -20,6 +20,8 @@ run : tail
 	./tail -n 8 <lines.txt
 	./tail -n 19 <lines.txt 
 	./tail -n 0 lines.txt
+	./tail -n 25 lines.txt
+	./tail -n 1 max_line.output
 
 clean:
 	rm -f *.o $(TARGETS)

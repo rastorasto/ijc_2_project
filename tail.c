@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 
-#define BUFFER_SIZE 2047 * sizeof(char)
+#define BUFFER_SIZE 2048 * sizeof(char)
 
 typedef struct {
     int size;
@@ -56,8 +56,12 @@ bool cbuf_put(cbuf_t *cb, char *line){
         return false;
     }
     strncpy(cb->buffer[cb->possition], line, BUFFER_SIZE);
+    //cb->buffer[cb->possition][BUFFER_SIZE - 1] = '\0';
+    cb->possition++;
 
-    cb->possition = (cb->possition + 1) % cb->size;
+    if(cb->possition == cb->size){
+        cb->possition = 0;
+    }
     if(cb->used < cb->size){
         cb->used++;
     }
@@ -93,7 +97,8 @@ int save_to_cbuf(FILE* file, int number_of_lines){
     }
     while(fgets(line, BUFFER_SIZE, file) != NULL){
         if(strlen(line) == BUFFER_SIZE - 1 && line[BUFFER_SIZE - 2] != '\n'){
-            for(;fgetc(file) != '\n';);
+            int c;
+            for (; (c = fgetc(file)) != '\n' && c != EOF; );
         }
         cbuf_put(cb, line);
     }
@@ -101,6 +106,9 @@ int save_to_cbuf(FILE* file, int number_of_lines){
     
     char *line_to_print;
     for(int i = 0; i < cb->used; i++){
+        if(cb->possition == cb->used){
+            cb->possition = 0;
+        }
         line_to_print = cbuf_get(cb);
         cb->possition = (cb->possition + 1) % cb->size;
         printf("%s", line_to_print);
@@ -115,9 +123,6 @@ int save_to_cbuf(FILE* file, int number_of_lines){
 int main(int argc, char *argv[]){
     int number_of_lines = 10;
     FILE *file = stdin;
-    for(int i = 0; i < argc; i++){
-        printf("%s\n", argv[i]);
-    }
     if(strcmp(argv[1], "-n") == 0 && argc > 2){
         for(unsigned int i = 0; i < strlen(argv[2]); i++){
             if(!isdigit(argv[2][i])){
@@ -144,8 +149,6 @@ int main(int argc, char *argv[]){
             return 1;
         }
     }
-    
-    fprintf(stdout, "\nNumber of lines: %d\n", number_of_lines);
     save_to_cbuf(file, number_of_lines);
     fclose(file);
     return 0; 
