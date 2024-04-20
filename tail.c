@@ -165,6 +165,7 @@ void cbuf_free(cbuf_t *cb){
 
 // Save the lines from the file to the circular buffer
 int save_to_cbuf(cbuf_t *cb, FILE* file){
+    int lenght_limit_reached = 0;
     char *line = malloc(BUFFER_SIZE);
     if(line == NULL){
         cbuf_free(cb);
@@ -174,6 +175,10 @@ int save_to_cbuf(cbuf_t *cb, FILE* file){
     while(fgets(line, BUFFER_SIZE, file) != NULL){
         // If the line is longer than the buffer, read the rest of the line and discard it
         if(strlen(line) == BUFFER_SIZE - 1 && line[BUFFER_SIZE - 2] != '\n'){
+            if(!lenght_limit_reached){
+                fprintf(stderr, "Line is too long. The rest of the line will be discarded.\n");
+                lenght_limit_reached = 1;
+            }
             int c;
             for (; (c = fgetc(file)) != '\n' && c != EOF; );
         }
