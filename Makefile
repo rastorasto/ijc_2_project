@@ -5,7 +5,7 @@
 
 CC = gcc
 CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
-TARGETS = tail
+TARGETS = tail wordcount
 
 all: $(TARGETS)
 
@@ -14,14 +14,20 @@ tail.o: tail.c
 tail: tail.o
 	$(CC) $(CFLAGS) -o $@ $^
 
-run : tail
-	./tail lines.txt
-	./tail -n 5 lines.txt
-	./tail -n 8 <lines.txt
-	./tail -n 19 <lines.txt 
-	./tail -n 0 lines.txt
-	./tail -n 25 lines.txt
-	./tail -n 0 lines.txt
+wordcount.o: wordcount.c
+
+wordcount: wordcount.o
+	$(CC) $(CFLAGS) -o $@ $^
+
+run : tail wordcount
+	# ./tail lines.txt
+	# ./tail -n 5 lines.txt
+	# ./tail -n 8 <lines.txt
+	# ./tail -n 19 <lines.txt 
+	# ./tail -n 0 lines.txt
+	# ./tail -n 25 lines.txt
+	# ./tail -n 0 lines.txt
+	./wordcount <char.input
 
 clean:
 	rm -f *.o $(TARGETS)
