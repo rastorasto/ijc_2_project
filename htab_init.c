@@ -4,6 +4,7 @@
 // Subor pre inicializaciu hashovacej tabulky
 
 #include "htab_private.h"
+#include <stdlib.h>
 
 htab_t *htab_init(size_t n) {
     // Allocate memory for the table and its array

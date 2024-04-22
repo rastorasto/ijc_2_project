@@ -4,6 +4,7 @@
 // Funckia pre vymazanie vsetkych prvkov v tabulke
 
 #include "htab_private.h"
+#include <stdlib.h>
 
 void htab_clear(htab_t * t) {
     if (t == NULL) {

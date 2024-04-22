@@ -4,6 +4,7 @@
 // Funcia pre vymazanie prvku z tabulky
 
 #include "htab_private.h"
+#include <stdlib.h>
 
 bool htab_erase(htab_t * t, htab_key_t key) {
     if (t == NULL) {
