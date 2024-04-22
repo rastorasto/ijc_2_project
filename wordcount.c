@@ -4,57 +4,31 @@
 // Program na vypisovanie poslednych n riadkov suboru
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "htab.h"
+#include "io.h"
 
-#define MAX_WORD_LENGTH 128
+#define MAX_WORD 127
+#define MAX_TABLE 5000
 
-typedef struct {
-    char *word;
-    int count;
-} word_t;
+void htab_print(htab_pair_t *data) {
+    printf("%s\t%d\n", data->key, data->value);
+}
 
-typedef struct {
-    int count;
-    word_t *words;
-} words_t;
-
-int main(int argc, char **argv){
-    (void)argv;
-    (void)argc;
-    words_t *words = malloc(sizeof(words_t));
-    if(words == NULL){
-        fprintf(stderr, "Memory allocation failed\n");
+int main(void){
+    htab_t *table = htab_init(MAX_TABLE);
+    if (table == NULL) {
+        fprintf(stderr, "Error: Failed to initialize table\n");
         return 1;
     }
-    words->count = 0;
-    char word[MAX_WORD_LENGTH];
 
-   while(scanf("%s", word)==1){
-        int exists = 0;
-        for(int i=0; i<words->count; i++){
-            if(strcmp(words->words[i].word, word)==0){
-                words->words[i].count++;
-                exists = 1;
-                break;
-            }
-        }
-        if(!exists){
-            words->count++;
-            words = realloc(words->words, words->count * sizeof(word_t));
-            if(words == NULL){
-                fprintf(stderr, "Memory allocation failed\n");
-                return 1;
-            }
-            words->words[words->count - 1].word = word;
-            words->words[words->count - 1].count = 1;
-        }
+    char word[MAX_WORD + 1];
+    while (read_word(word, MAX_WORD, stdin) != EOF) {
+        htab_lookup_add(table, word);
     }
-    for (int i = 0; i < words->count; i++) {
-        printf("%s %d\n", words->words[i].word, words->words[i].count);
-        free(words->words[i].word);
-    }
-    free(words->words);
-    free(words);
+
+    htab_for_each(table, htab_print);
+    htab_free(table);
     return 0;
+
+
 }

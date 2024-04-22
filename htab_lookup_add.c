@@ -18,26 +18,27 @@ htab_pair_t *htab_lookup_add(htab_t * t, htab_key_t key) {
     }
     
     struct htab_item *item = malloc(sizeof(struct htab_item));
-    
-    if (item == NULL) {
+    struct htab_item *new_item = malloc(sizeof(struct htab_item));
+
+    if (new_item == NULL) {
         return NULL;
     }
     size_t hash = htab_hash_function(key) % t->arr_size;
     if(t->arr[hash] == NULL) {
-        t->arr[hash] = item;
+        t->arr[hash] = new_item;
     } else {
         struct htab_item *tmp = t->arr[hash];
         while (tmp->next != NULL) {
             tmp = tmp->next;
         }
-        tmp->next = item;
+        tmp->next = new_item;
     }
 
-    item->key = key;
-    item->data = 1;
-    item->next = NULL;
+    new_item->key = key;
+    new_item->data = 1;
+    new_item->next = NULL;
     t->size++;
 
-    return item;
+    return new_item;
 
 }

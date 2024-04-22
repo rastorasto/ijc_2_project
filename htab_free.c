@@ -4,6 +4,7 @@
 // Funkcia pre uvolnenie pamate alokovanej pre tabulku
 
 #include "htab_private.h"
+#include <stdlib.h>
 
 void htab_free(htab_t * t) {
     if (t == NULL) {
