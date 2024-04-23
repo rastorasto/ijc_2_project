@@ -4,16 +4,21 @@
 // Funckia ktora vykona funkciu pre kazdy prvok v tabulke
 
 #include "htab_private.h"
+#include <stdlib.h>
 
 void htab_for_each(const htab_t * t, void (*f)(htab_pair_t *data)){
     if (t == NULL) {
         return;
     }
-
+    struct htab_item *item;
     for (size_t i = 0; i < t->arr_size; i++) {
-        struct htab_item *item = t->arr[i];
+        item = t->arr[i];
         while (item != NULL) {
-            f(item);
+            htab_pair_t *data = malloc(sizeof(htab_pair_t));
+            data->key = item->key;
+            data->value = item->data;
+            f(data);
+            free(data);
             item = item->next;
         }
     }

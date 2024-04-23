@@ -4,6 +4,7 @@
 // Funkcia pre najdenie polozky v tabulke alebo pridanie novej polozky ak sa nenajde
 
 #include "htab_private.h"
+#include <stdlib.h>
 
 htab_pair_t *htab_lookup_add(htab_t * t, htab_key_t key) {
     
@@ -11,13 +12,15 @@ htab_pair_t *htab_lookup_add(htab_t * t, htab_key_t key) {
         return NULL;
     }
     struct htab_item *item = htab_find(t, key);
+    htab_pair_t *pair = malloc(sizeof(htab_pair_t));
 
     if (item != NULL) {
-        item->data++;
-        return item;
+        //item->data++;
+        
+        pair->key = item->key;
+        return pair;
     }
     
-    struct htab_item *item = malloc(sizeof(struct htab_item));
     struct htab_item *new_item = malloc(sizeof(struct htab_item));
 
     if (new_item == NULL) {

@@ -4,6 +4,7 @@
 // Funkcia pre vyhladanie prvku v tabulke
 
 #include "htab_private.h"
+#include <stdlib.h>
 
 htab_pair_t *htab_find(const htab_t * t, htab_key_t key) {
     // Check if table is NULL
@@ -17,7 +18,13 @@ htab_pair_t *htab_find(const htab_t * t, htab_key_t key) {
     while (item != NULL) {
         // If the key is the same, return the item
         if (strcmp(item->key, key) == 0) {
-            return item;
+            htab_pair_t *pair = malloc(sizeof(htab_pair_t));
+            if(pair == NULL) {
+                return NULL;
+            }
+            pair->key = item->key;
+            pair->value = item->data;
+            return pair;
         }
         // Move to the next item
         item = item->next;
