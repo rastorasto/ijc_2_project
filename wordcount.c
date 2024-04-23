@@ -27,7 +27,9 @@ int main(void){
     }
 
     htab_for_each(table, htab_print);
+
     htab_free(table);
+    
     return 0;
 
 

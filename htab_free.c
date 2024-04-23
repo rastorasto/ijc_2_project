@@ -11,6 +11,6 @@ void htab_free(htab_t * t) {
         return;
     }
 
-   htab_clear(t);
+   htab_clear(t->arr);
    free(t);
 }
