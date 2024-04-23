@@ -6,12 +6,12 @@
 #include "htab_private.h"
 #include <stdio.h>
 
-void htab_statistics(htab_t *t) {
+void htab_statistics(const htab_t *t) {
     size_t min = 0;
     size_t max = 0;
     size_t avg = 0;
     struct htab_item *item = t->arr[0];
-    for (unsigned i = 1; i < t->arr_size; i++,item->next) {
+    for (unsigned i = 1; i < t->arr_size; i++) {
         if (min == 0 || i < min) {
             min = i;
         }
@@ -19,6 +19,7 @@ void htab_statistics(htab_t *t) {
             max = i;
         }
         avg += i;
+        item=item->next;
     }
     avg /= t->size;
     fprintf(stderr, "Minimum lenght of array: %lu", min);
