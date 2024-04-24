@@ -6,42 +6,32 @@
 #include "htab_private.h"
 #include <stdlib.h>
 
-htab_pair_t *htab_lookup_add(htab_t * t, htab_key_t key) {
-    
+htab_pair_t *htab_lookup_add(htab_t *t, htab_key_t key) {
     if (t == NULL) {
         return NULL;
     }
-    struct htab_item *item = htab_find(t, key);
-    htab_pair_t *pair = malloc(sizeof(htab_pair_t));
 
-    if (item != NULL) {
-        //item->data++;
-        
-        pair->key = item->key;
-        return pair;
+    size_t hash = htab_hash_function(key) % t->arr_size;
+    struct htab_item *item = t->arr[hash];
+
+    while (item != NULL) {
+        if (strcmp(item->pair.key, key) == 0) {
+            return &(item->pair);
+        }
+        item = item->next;
     }
-    
     struct htab_item *new_item = malloc(sizeof(struct htab_item));
-
     if (new_item == NULL) {
         return NULL;
     }
-    size_t hash = htab_hash_function(key) % t->arr_size;
-    if(t->arr[hash] == NULL) {
+    if (item == NULL) {
         t->arr[hash] = new_item;
     } else {
-        struct htab_item *tmp = t->arr[hash];
-        while (tmp->next != NULL) {
-            tmp = tmp->next;
-        }
-        tmp->next = new_item;
+        item->next = new_item;
     }
-
-    new_item->key = key;
-    new_item->data = 1;
+    new_item->pair.key = key;
+    new_item->pair.value = 0;
     new_item->next = NULL;
     t->size++;
-
-    return new_item;
-
+    return &(new_item->pair);
 }

@@ -16,13 +16,12 @@ bool htab_erase(htab_t * t, htab_key_t key) {
     struct htab_item *prev = NULL;
 
     while (item != NULL) {
-        if (strcmp(item->key, key) == 0) {
+        if (strcmp(item->pair.key, key) == 0) {
             if (prev == NULL) {
                 t->arr[index] = item->next;
             } else {
                 prev->next = item->next;
             }
-            free(item->key);
             free(item);
             t->size--;
             return true;
@@ -30,6 +29,5 @@ bool htab_erase(htab_t * t, htab_key_t key) {
         prev = item;
         item = item->next;
     }
-
     return false;
 }

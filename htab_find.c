@@ -17,14 +17,8 @@ htab_pair_t *htab_find(const htab_t * t, htab_key_t key) {
     // Iterates through the list of items with the same hash
     while (item != NULL) {
         // If the key is the same, return the item
-        if (strcmp(item->key, key) == 0) {
-            htab_pair_t *pair = malloc(sizeof(htab_pair_t));
-            if(pair == NULL) {
-                return NULL;
-            }
-            pair->key = item->key;
-            pair->value = item->data;
-            return pair;
+        if (strcmp(item->pair.key, key) == 0) {
+            return &(item->pair);
         }
         // Move to the next item
         item = item->next;
