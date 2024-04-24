@@ -9,8 +9,7 @@
 #include "htab.h"
 
 struct htab_item {
-    char *key;
-    unsigned data;
+    htab_pair_t pair;
     struct htab_item *next;
 };
 
@@ -19,7 +18,5 @@ struct htab {
     size_t size;
     struct htab_item *arr[];
 };
-
-
 
 #endif // _HTAB_PRIVATE_H_
