@@ -20,14 +20,14 @@ htab_pair_t *htab_lookup_add(htab_t *t, htab_key_t key) {
     if (new_item == NULL) {
         return NULL;
     }
+    new_item->pair.key = key;
+    new_item->pair.value = 0;
+    new_item->next = NULL;
+    t->size++;
     if (item == NULL) {
         t->arr[hash] = new_item;
     } else {
         item->next = new_item;
     }
-    new_item->pair.key = key;
-    new_item->pair.value = 0;
-    new_item->next = NULL;
-    t->size++;
     return &(new_item->pair);
 }

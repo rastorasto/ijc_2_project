@@ -11,7 +11,11 @@
 #define MAX_TABLE 10000
 
 void htab_print(htab_pair_t *data) {
-    printf("%s\t%d\n", data->key, data->value);
+    if(data != NULL){
+        printf("%s\t%d\n", data->key, data->value);
+    } else {
+        printf("NULL\n");
+    }
 }
 
 int main(void){
@@ -19,11 +23,27 @@ int main(void){
 
     char word[MAX_WORD + 1];
     while (read_word(word, MAX_WORD, stdin) != EOF) {
+        fprintf(stderr, "%s\n", word);
         htab_pair_t *item = htab_lookup_add(table, word);
         item->value++;
+        htab_for_each(table, htab_print);
+        // item->key = word;
     }
+    //htab_for_each(table, htab_print);
+    // htab_pair_t *a = htab_find(table, "a");
+    // htab_pair_t *b = htab_find(table, "b");
+    // htab_print(a);
+    // htab_print(b);
 
-    htab_for_each(table, htab_print);
+
+    // printf("\n--------\n");
+    // for (size_t i = 0; i < table->arr_size; i++) {
+    //     struct htab_item *item = table->arr[i];
+    //     while (item != NULL) {
+    //         htab_print(&item->pair);
+    //         item = item->next;
+    //     }
+    // }
 
     // htab_lookup_add(table, "mnau");
     // htab_lookup_add(table, "vrrrr");
