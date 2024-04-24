@@ -7,8 +7,8 @@
 #include "htab_private.h"
 #include "io.h"
 
-#define MAX_WORD 127
-#define MAX_TABLE 10000
+#define MAX_WORD 255
+#define MAX_TABLE 1000
 
 void htab_print(htab_pair_t *data) {
     if(data != NULL){
@@ -17,19 +17,25 @@ void htab_print(htab_pair_t *data) {
         printf("NULL\n");
     }
 }
+// void print_address(htab_pair_t *data) {
+//     printf("%p\n", data->key);
+// }
 
 int main(void){
     htab_t *table = htab_init(MAX_TABLE);
 
     char word[MAX_WORD + 1];
     while (read_word(word, MAX_WORD, stdin) != EOF) {
-        fprintf(stderr, "%s\n", word);
+       // fprintf(stderr, "%s\n", word);
         htab_pair_t *item = htab_lookup_add(table, word);
         item->value++;
-        htab_for_each(table, htab_print);
+       // htab_for_each(table, htab_print);
         // item->key = word;
     }
-    //htab_for_each(table, htab_print);
+    // printf("\n--------\n");
+    htab_for_each(table, htab_print);
+    // printf("\n--------\n");
+    // htab_for_each(table, print_address);
     // htab_pair_t *a = htab_find(table, "a");
     // htab_pair_t *b = htab_find(table, "b");
     // htab_print(a);

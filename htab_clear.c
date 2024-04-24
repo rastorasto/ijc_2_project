@@ -11,6 +11,7 @@ void htab_clear(htab_t * t) {
         struct htab_item *item = t->arr[i];
         while (item != NULL) {
             struct htab_item *tmp = item->next;
+            free((char *)item->pair.key);
             free(item);
             item = tmp;
         }
