@@ -7,10 +7,6 @@
 #include <stdlib.h>
 
 void htab_clear(htab_t * t) {
-    if (t == NULL) {
-        return;
-    }
-
     for (size_t i = 0; i < t->arr_size; i++) {
         struct htab_item *item = t->arr[i];
         while (item != NULL) {

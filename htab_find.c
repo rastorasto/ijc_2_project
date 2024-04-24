@@ -7,10 +7,6 @@
 #include <stdlib.h>
 
 htab_pair_t *htab_find(const htab_t * t, htab_key_t key) {
-    // Check if table is NULL
-    if (t == NULL) {
-        return NULL;
-    }
     // Gets first item in the table with the same hash
     struct htab_item *item = t->arr[htab_hash_function(key) % t->arr_size];
 

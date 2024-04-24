@@ -7,10 +7,6 @@
 #include <stdlib.h>
 
 bool htab_erase(htab_t * t, htab_key_t key) {
-    if (t == NULL) {
-        return false;
-    }
-
     size_t index = htab_hash_function(key) % t->arr_size;
     struct htab_item *item = t->arr[index];
     struct htab_item *prev = NULL;
