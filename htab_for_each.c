@@ -7,9 +7,6 @@
 #include <stdlib.h>
 
 void htab_for_each(const htab_t * t, void (*f)(htab_pair_t *data)){
-    if (t == NULL) {
-        return;
-    }
     struct htab_item *item;
     for (size_t i = 0; i < t->arr_size; i++) {
         item = t->arr[i];
