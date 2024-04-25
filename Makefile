@@ -38,7 +38,7 @@ wordcount: wordcount.o libhtab.a io.o
 	$(CC) $(CFLAGS) -o $@ $^
 
 wordcount-dynamic: wordcount.o libhtab.so io.o
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -fPIC
 	
 
 run : tail wordcount
