@@ -17,26 +17,19 @@ void htab_print(htab_pair_t *data) {
         printf("NULL\n");
     }
 }
-// void print_address(htab_pair_t *data) {
-//     printf("%p\n", data->key);
-// }
 
 int main(void){
     htab_t *table = htab_init(MAX_TABLE);
     int read_word_value = 0;
     char word[MAX_WORD];
     while ((read_word_value = read_word(word, MAX_WORD, stdin)) != EOF && read_word_value != WORD_LENGTH_EXCEEDED) {
-       //fprintf(stderr, "%s\n", word);
         htab_pair_t *item = htab_lookup_add(table, word);
         item->value++;
-       // htab_for_each(table, htab_print);
-        // item->key = word;
     }
 
     htab_for_each(table, htab_print);
 
     htab_free(table);
     return 0;
-
 
 }
