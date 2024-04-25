@@ -42,13 +42,13 @@ wordcount-dynamic: wordcount.o libhtab.so io.o
 	$(CC) $(CFLAGS) -o $@ $^ -L. -lhtab
 	
 
-run : tail wordcount
+run : tail wordcount wordcount-dynamic
 	./tail wordcount.c
 	./wordcount <wordcount.c
 	export LD_LIBRARY_PATH="." && ./wordcount-dynamic <wordcount.c
 
 clean:
-	rm -f *.o $(TARGETS)
+	rm -f *.o $(TARGETS) xuhlia00.zip
 
 zip:
 	zip xuhlia00.zip *.c *.h Makefile
