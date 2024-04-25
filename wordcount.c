@@ -7,9 +7,10 @@
 #include "htab_private.h"
 #include "io.h"
 
-#define MAX_WORD 256
-#define MAX_TABLE 20000
+#define MAX_WORD 256 // 255 + '\0'
+#define MAX_TABLE 20000 
 
+// Function to print htab_pair_t key and value
 void htab_print(htab_pair_t *data) {
     if(data != NULL){
         printf("%s\t%d\n", data->key, data->value);
@@ -23,15 +24,18 @@ int main(void){
     int read_word_value = 0;
     int read_word_error = 0;
     char word[MAX_WORD];
+    // Reads the words from the stdin and adds them to the hash table
     while ((read_word_value = read_word(word, MAX_WORD, stdin)) != EOF) {
+        // If the word is too long, it prints an error message once
         if(read_word_error == 0 && read_word_value == WORD_LENGTH_EXCEEDED){
             read_word_error = 1;
             fprintf(stderr, "Word is too long\n");
         }
+        // Gets the htab_pair_t item and increments the value
         htab_pair_t *item = htab_lookup_add(table, word);
         item->value++;
     }
-
+    // Prints the hash table
     htab_for_each(table, htab_print);
 
     htab_free(table);
