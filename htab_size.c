@@ -5,7 +5,6 @@
 
 #include "htab_private.h"
 
-// Vrati pocet zaznamov v tabulke
 size_t htab_size(const htab_t * t) {
     return t->size;
 }

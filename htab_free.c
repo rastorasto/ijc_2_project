@@ -7,6 +7,7 @@
 #include <stdlib.h>
 
 void htab_free(htab_t * t) {
+   // Clears the table items and frees the table
    htab_clear(t);
    free(t);
 }
