@@ -18,6 +18,7 @@ bool htab_erase(htab_t * t, htab_key_t key) {
             } else {
                 prev->next = item->next;
             }
+            free((char *)item->pair.key);
             free(item);
             t->size--;
             return true;

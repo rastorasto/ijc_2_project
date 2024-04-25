@@ -7,8 +7,8 @@
 #include "htab_private.h"
 #include "io.h"
 
-#define MAX_WORD 255
-#define MAX_TABLE 1000
+#define MAX_WORD 256
+#define MAX_TABLE 20000
 
 void htab_print(htab_pair_t *data) {
     if(data != NULL){
@@ -23,38 +23,17 @@ void htab_print(htab_pair_t *data) {
 
 int main(void){
     htab_t *table = htab_init(MAX_TABLE);
-
-    char word[MAX_WORD + 1];
-    while (read_word(word, MAX_WORD, stdin) != EOF) {
-       // fprintf(stderr, "%s\n", word);
+    int read_word_value = 0;
+    char word[MAX_WORD];
+    while ((read_word_value = read_word(word, MAX_WORD, stdin)) != EOF && read_word_value != WORD_LENGTH_EXCEEDED) {
+       //fprintf(stderr, "%s\n", word);
         htab_pair_t *item = htab_lookup_add(table, word);
         item->value++;
        // htab_for_each(table, htab_print);
         // item->key = word;
     }
-    // printf("\n--------\n");
+
     htab_for_each(table, htab_print);
-    // printf("\n--------\n");
-    // htab_for_each(table, print_address);
-    // htab_pair_t *a = htab_find(table, "a");
-    // htab_pair_t *b = htab_find(table, "b");
-    // htab_print(a);
-    // htab_print(b);
-
-
-    // printf("\n--------\n");
-    // for (size_t i = 0; i < table->arr_size; i++) {
-    //     struct htab_item *item = table->arr[i];
-    //     while (item != NULL) {
-    //         htab_print(&item->pair);
-    //         item = item->next;
-    //     }
-    // }
-
-    // htab_lookup_add(table, "mnau");
-    // htab_lookup_add(table, "vrrrr");
-    // htab_lookup_add(table, "grrrr");
-    // htab_for_each(table, htab_print);
 
     htab_free(table);
     return 0;
