@@ -11,16 +11,11 @@ void htab_statistics(const htab_t *t) {
     size_t max = 0;
     size_t avg = t->size / t->arr_size;
     size_t count = 0;
-    // Iterates through the first array to set min max values
-    struct htab_item *item = t->arr[0];
-    while(item != NULL){
-        min++;
-        max++;
-        item=item->next;
-    }
-    // Itterates through the rest of the arrays
-    for (unsigned i = 1; i < t->arr_size; i++) {
+    
+    // Itterates through the arrays
+    for (unsigned i = 0; i < t->arr_size; i++) {
         count = 0;
+        struct htab_item *item = t->arr[i];
         // Iterates through the array and counts the items
         while(item != NULL){
             count++;
@@ -35,8 +30,8 @@ void htab_statistics(const htab_t *t) {
         }
     }
     // Prints the statistics
-    fprintf(stderr, "Minimum lenght of array: %lu", min);
-    fprintf(stderr, "Maximum lenght of array: %lu", max);
-    fprintf(stderr, "Average lenght of array: %lu", avg);
+    fprintf(stderr, "Minimum lenght of array: %lu\n", min);
+    fprintf(stderr, "Maximum lenght of array: %lu\n", max);
+    fprintf(stderr, "Average lenght of array: %lu\n", avg);
 
 }
