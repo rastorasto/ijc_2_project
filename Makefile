@@ -5,7 +5,7 @@
 
 CC = gcc
 AR = ar
-CFLAGS = -g -std=c11 -pedantic -Wall -Wextra
+CFLAGS = -g -std=c11 -pedantic -Wall -Wextra -O2 -fPIC
 TARGETS = tail wordcount wordcount-dynamic libhtab.a libhtab.so
 
 MODULES = htab_bucket_count.o \
@@ -29,7 +29,7 @@ libhtab.a: $(MODULES)
 	$(AR) rcs $@ $^
 
 libhtab.so: $(MODULES)
-	$(CC) $(CFLAGS) -shared -fPIC -o $@ $^
+	$(CC) $(CFLAGS) -shared -o $@ $^
 
 tail: tail.o
 	$(CC) $(CFLAGS) -o $@ $^
