@@ -45,7 +45,7 @@ clean:
 	rm -f *.o $(TARGETS) xuhlia00.zip
 
 zip:
-	zip xuhlia00.zip *.c *.h Makefile
+	zip xuhliar00.zip *.c *.h Makefile
 
 tail.o: tail.c
 wordcount.o: wordcount.c htab.h io.h
