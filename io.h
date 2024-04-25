@@ -7,6 +7,7 @@
 #define _IO_H_
  
 #include<stdio.h>
+#define WORD_LENGTH_EXCEEDED -2
 
 int read_word(char *s, int max, FILE *f);
 

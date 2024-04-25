@@ -21,16 +21,19 @@ int read_word(char *s, int max, FILE *f){
     s[i] = charc;  
     
     // Read the rest of the word
-    for(i = 1; i< max - 1 && i!=max-1; i++){
+    for(i = 1; i!=max-1; i++){
         // If the character is not a whitespace, put it into the string
         if(!isspace((charc = fgetc(f)))){
             s[i] = charc;
         }
         // If the character is a whitespace or EOF, end the string
         if (isspace(charc) || charc == EOF) {
-            s[i] = '\0';
-            return i;
+            break;
         }
+    }
+    s[i] = '\0';
+    if(i == max - 1){
+        return WORD_LENGTH_EXCEEDED;
     }
     return i;
 }

@@ -45,11 +45,9 @@ run : tail wordcount
 	# ./tail lines.txt
 	# ./tail -n 5 lines.txt
 	# ./tail -n 8 <lines.txt
-	# ./tail -n 19 <lines.txt 
-	# ./tail -n 0 lines.txt
-	# ./tail -n 25 lines.txt
-	# ./tail -n 0 lines.txt
 	./wordcount <char.input
+	export LD_LIBRARY_PATH="."
+	./wordcount-dynamic <char.input
 
 clean:
 	rm -f *.o $(TARGETS)

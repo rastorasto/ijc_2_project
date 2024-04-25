@@ -20,9 +20,9 @@ htab_pair_t *htab_lookup_add(htab_t *t, htab_key_t key) {
     if (new_item == NULL) {
         return NULL;
     }
-    
-    new_item->pair.key = (char *)malloc(strlen(key) + 1);
-    strcpy(new_item->pair.key, key);
+    char* new_key = malloc(strlen(key) + 1);
+    strcpy(new_key, key);
+    new_item->pair.key = new_key;
     new_item->pair.value = 0;
     new_item->next = NULL;
     t->size++;
