@@ -26,6 +26,9 @@ int main(void){
         htab_pair_t *item = htab_lookup_add(table, word);
         item->value++;
     }
+    if(read_word_value == WORD_LENGTH_EXCEEDED){
+        fprintf(stderr, "Word is too long\n");
+    }
 
     htab_for_each(table, htab_print);
 
