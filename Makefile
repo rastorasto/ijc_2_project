@@ -42,7 +42,7 @@ run : tail wordcount wordcount-dynamic
 	export LD_LIBRARY_PATH="." && ./wordcount-dynamic <wordcount.c
 
 clean:
-	rm -f *.o $(TARGETS) xuhlia00.zip
+	rm -f *.o $(TARGETS) xuhliar00.zip
 
 zip:
 	zip xuhliar00.zip *.c *.h Makefile
