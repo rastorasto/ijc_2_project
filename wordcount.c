@@ -8,7 +8,11 @@
 #include "io.h"
 
 #define MAX_WORD 256 // 255 + '\0'
-#define MAX_TABLE 20000 
+// Nastavil som na 10000, pretoze neviem kolko slov bude obsahovat
+// subor, na ktorom sa to bude testovat. Preto je lepsie nastavit
+// vacsiu velkost, aby sme nemuseli dlho cakat v pripade, ze testujeme
+// velky subor.
+#define MAX_TABLE 10000 
 
 // Function to print htab_pair_t key and value
 void htab_print(htab_pair_t *data) {
@@ -21,7 +25,7 @@ void htab_print(htab_pair_t *data) {
 
 int main(void){
     htab_t *table = htab_init(MAX_TABLE);
-    int read_word_value = 0;
+    int read_word_value;
     int read_word_error = 0;
     char word[MAX_WORD];
     // Reads the words from the stdin and adds them to the hash table

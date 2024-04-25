@@ -7,7 +7,9 @@
 #define _IO_H_
  
 #include<stdio.h>
-#define WORD_LENGTH_EXCEEDED -2
+// Word is always at least 1 character long and
+// -1 is used for EOF so i decided to use 0
+#define WORD_LENGTH_EXCEEDED 0
 
 int read_word(char *s, int max, FILE *f);
 
