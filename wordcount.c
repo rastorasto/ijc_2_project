@@ -21,13 +21,15 @@ void htab_print(htab_pair_t *data) {
 int main(void){
     htab_t *table = htab_init(MAX_TABLE);
     int read_word_value = 0;
+    int read_word_error = 0;
     char word[MAX_WORD];
-    while ((read_word_value = read_word(word, MAX_WORD, stdin)) != EOF && read_word_value != WORD_LENGTH_EXCEEDED) {
+    while ((read_word_value = read_word(word, MAX_WORD, stdin)) != EOF) {
+        if(read_word_error == 0 && read_word_value == WORD_LENGTH_EXCEEDED){
+            read_word_error = 1;
+            fprintf(stderr, "Word is too long\n");
+        }
         htab_pair_t *item = htab_lookup_add(table, word);
         item->value++;
-    }
-    if(read_word_value == WORD_LENGTH_EXCEEDED){
-        fprintf(stderr, "Word is too long\n");
     }
 
     htab_for_each(table, htab_print);
