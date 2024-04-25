@@ -38,6 +38,11 @@ int main(void){
     // Prints the hash table
     htab_for_each(table, htab_print);
 
+    // If we compile with the STATISTICS flag, it prints the statistics
+    #ifdef STATISTICS
+        htab_statistics(table);
+    #endif
+
     htab_free(table);
     return 0;
 

@@ -23,6 +23,7 @@ all: $(TARGETS)
 
 tail.o: tail.c
 wordcount.o: wordcount.c htab.h io.h
+wordcount-dynamic.o: wordcount.c htab.h io.h
 
 
 libhtab.a: $(MODULES)
@@ -42,12 +43,10 @@ wordcount-dynamic: wordcount.o libhtab.so io.o
 	
 
 run : tail wordcount
-	# ./tail lines.txt
-	# ./tail -n 5 lines.txt
-	# ./tail -n 8 <lines.txt
-	./wordcount <char.input
+	./tail wordcount.c
+	./wordcount <wordcount.c
 	export LD_LIBRARY_PATH="."
-	./wordcount-dynamic <char.input
+	./wordcount-dynamic <wordcount.c
 
 clean:
 	rm -f *.o $(TARGETS)
