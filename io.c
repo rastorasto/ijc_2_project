@@ -32,7 +32,7 @@ int read_word(char *s, int max, FILE *f){
         }
     }
     s[i] = '\0';
-    if(i == max - 1){
+    if(i == max){
         return WORD_LENGTH_EXCEEDED;
     }
     return i;
