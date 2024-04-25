@@ -45,8 +45,7 @@ wordcount-dynamic: wordcount.o libhtab.so io.o
 run : tail wordcount
 	./tail wordcount.c
 	./wordcount <wordcount.c
-	export LD_LIBRARY_PATH="."
-	./wordcount-dynamic <wordcount.c
+	export LD_LIBRARY_PATH="." && ./wordcount-dynamic <wordcount.c
 
 clean:
 	rm -f *.o $(TARGETS)
