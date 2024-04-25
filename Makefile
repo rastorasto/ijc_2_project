@@ -21,11 +21,6 @@ MODULES = htab_bucket_count.o \
 	htab_statistics.o
 all: $(TARGETS)
 
-tail.o: tail.c
-wordcount.o: wordcount.c htab.h io.h
-wordcount-dynamic.o: wordcount.c htab.h io.h
-
-
 libhtab.a: $(MODULES)
 	$(AR) rcs $@ $^
 
@@ -41,7 +36,6 @@ wordcount: wordcount.o libhtab.a io.o
 wordcount-dynamic: wordcount.o libhtab.so io.o
 	$(CC) $(CFLAGS) -o $@ $^ -L. -lhtab
 	
-
 run : tail wordcount wordcount-dynamic
 	./tail wordcount.c
 	./wordcount <wordcount.c
@@ -53,35 +47,17 @@ clean:
 zip:
 	zip xuhlia00.zip *.c *.h Makefile
 
+tail.o: tail.c
+wordcount.o: wordcount.c htab.h io.h
+wordcount-dynamic.o: wordcount.c htab.h io.h
 htab_bucket_count.o: htab_bucket_count.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_clear.o: htab_clear.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_erase.o: htab_erase.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_find.o: htab_find.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_for_each.o: htab_for_each.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_free.o: htab_free.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_hash_function.o: htab_hash_function.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_init.o: htab_init.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_lookup_add.o: htab_lookup_add.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_size.o: htab_size.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
-
 htab_statistics.o: htab_statistics.c htab_private.h
-	$(CC) $(CFLAGS) -c -o $@ $<
