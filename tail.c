@@ -175,6 +175,7 @@ int save_to_cbuf(cbuf_t *cb, FILE* file){
     while(fgets(line, BUFFER_SIZE, file) != NULL){
         // If the line is longer than the buffer, read the rest of the line and discard it
         if(strlen(line) == BUFFER_SIZE - 1 && line[BUFFER_SIZE - 2] != '\n'){
+            // If the line is too long, print an error message once
             if(!lenght_limit_reached){
                 fprintf(stderr, "Line is too long. The rest of the line will be discarded.\n");
                 lenght_limit_reached = 1;
